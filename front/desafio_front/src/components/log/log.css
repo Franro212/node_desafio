@@ -1,0 +1,40 @@
+.container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    margin-top: 10rem;
+
+}
+.form{
+    background-color: brown;
+    width: 30vw;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    border-radius: 1rem;
+    
+}
+.containerInput{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 2rem;
+}
+.input{
+    width: 20rem;
+    height: 3rem;
+    border-radius: 2rem;
+   border: 2px solid;
+   text-align: center;
+}
+.inputBtn{
+    border-radius: 0.5rem;
+    background-color: #000000;
+    color: aliceblue;
+
+}
