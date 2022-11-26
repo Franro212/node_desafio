@@ -11,7 +11,7 @@ const {
 } = require("../controllers/inmuebleControllers");
 const { verifyToken, verifyPerfil, verifyPerfil2, verifyPerfil3 } = require("../validators/auth");
 //b//
-router.get("/inmueble/listInmueble",verifyToken,verifyPerfil, listInmueble);
+router.get("/inmueble/listInmueble",verifyToken, listInmueble);
 //c//
 router.get("/inmueble/:id",verifyToken,verifyPerfil, inmuebleById);
 //d//

@@ -11,7 +11,9 @@ import "./index.css"
 import Login from './components/log/Login';
 import ErrorPage from './components/error/ErrorPage';
 import Register from './components/register/Register';
-import AddInmueble from './components/addInmueble/AddInmueble';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Catalogo from './components/listaInmuebles/Catalogo';
+
 
 
 const ProtectedRoute = ({children})=>{
@@ -45,9 +47,10 @@ const router = createBrowserRouter([
     element: <Register/>
   },
   {
-    path: "ingresoNuevo",
-    element: <AddInmueble/>
+    path: "catalogo",
+    element: <Catalogo/>
   },
+  
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

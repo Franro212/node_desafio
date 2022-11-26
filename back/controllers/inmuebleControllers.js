@@ -1,7 +1,10 @@
 const knex = require("../config/knexfile");
 
 exports.listInmueble = (req, res) => {
-  knex("inmuebles")
+  knex.select('*')
+  .from('inmuebles')
+  .join('direcciones', {id_direccion: 'inmuebles.id_inmueble'})
+  
     .then((resultado) => {
       res.json(resultado);
     })
@@ -23,25 +26,62 @@ exports.inmuebleById = (req, res) => {
     });
 };
 
-exports.inmuebleNuevo = (req, res) => {
-  const { nombre, metros_cuadrados, precio_venta } = req.body;
-console.log(nombre, metros_cuadrados, precio_venta);
-  knex("inmuebles")
 
-    .insert({
-      nombre: nombre,
-      metros_cuadrados: metros_cuadrados,
-      precio_venta: precio_venta,
-    })
-    .then(() => {
-      res.json({
-        mensaje: "El inmueble fue ingresado correctamente",
+exports.inmuebleNuevo  = async (req, res) => {
+  const {nombre, metros_cuadrados,  precio_venta, direccion, ciudad} = req.body;
+ 
+  
+try{
+
+  await knex.transaction(async (trx) =>{
+      const inmueble_nuevo =  await trx ('inmuebles')
+      .insert({
+          nombre: nombre,
+          metros_cuadrados: metros_cuadrados,
+          precio_venta: precio_venta,
+         
+      }, 'id_inmueble');
+
+  await trx ('direcciones')
+      .insert({
+          direccion: direccion, 
+
+          ciudad: ciudad,
+          id_inmueble: inmueble_nuevo[0].id_inmueble
       });
-    })
-    .catch((error) => {
-      res.status(400).json({ error: error.message });
-    });
-};
+  } )
+  
+  res.json({
+      mensaje: "El inmueble se ha ingresado correctamente" 
+  })
+
+}  catch (error) {
+  res.status(400).json({ error: error.message });
+
+}};
+
+
+
+
+// exports.inmuebleNuevo = (req, res) => {
+//   const { nombre, metros_cuadrados, precio_venta, } = req.body;
+
+//   knex("inmuebles")
+
+//     .insert({
+//       nombre: nombre,
+//       metros_cuadrados: metros_cuadrados,
+//       precio_venta: precio_venta,
+//     })
+//     .then(() => {
+//       res.json({
+//         mensaje: "El inmueble fue ingresado correctamente",
+//       });
+//     })
+//     .catch((error) => {
+//       res.status(400).json({ error: error.message });
+//     });
+// };
 
 exports.modificarInmueble = (req, res) => {
     const id = req.params.id;
